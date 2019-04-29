@@ -91,4 +91,9 @@ export class NetworkComponent implements OnInit {
     const chosen = this.network.getSelectedNodes();
     this.nodes.remove(chosen);
   }
+
+  onRemoveEdge() {
+    const chosen = this.network.getSelectedEdges();
+    this.edges.remove(chosen);
+  }
 }
