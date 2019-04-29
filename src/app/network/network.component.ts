@@ -2,17 +2,43 @@ import {Component, OnInit} from '@angular/core';
 import {Network, DataSet} from 'vis';
 import {log} from 'util';
 
+interface RoutingTableItem {
+  item: string;
+  cost: number;
+  nextHop: string;
+}
+
+const ROUTINGITEMS: RoutingTableItem[] = [
+  {
+    item: 'R1',
+    cost: 5,
+    nextHop: 'R2'
+  },
+  {
+    item: 'R2',
+    cost: 2,
+    nextHop: 'PC2'
+  },
+  {
+    item: 'PC1',
+    cost: 2,
+    nextHop: 'R1'
+  }
+];
+
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
   styleUrls: ['./network.component.scss']
 })
+
 export class NetworkComponent implements OnInit {
   private network: any;
   private nodes: any;
   private edges: any;
   private lastNodeId = new Map(); // key: node type (router, PC); value: recent assigned ID
   private lastEdgeId = 1;
+  routingItems = ROUTINGITEMS;
 
   ngOnInit() {
     this.nodes = new DataSet();
@@ -44,6 +70,26 @@ export class NetworkComponent implements OnInit {
         label: type + id,
         group: type
       });
+
+      const table = document.getElementsByClassName('tablesContainer')[0];
+      table.innerHTML += `<table style="width:300px; margin: 5px;" class="table table-striped">
+         <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Next hop</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <tr>
+            <td>${this.routingItems[0].item}</td>
+            <td>${this.routingItems[0].cost}</td>
+            <td>${this.routingItems[0].nextHop}</td>
+          </tr>
+
+          </tbody>
+        </table>`;
 
       this.lastNodeId.set(type, id);
     } catch (err) {
