@@ -5,7 +5,7 @@ import {Router} from '../model/router';
   providedIn: 'root'
 })
 export class RoutingService {
-  private routers: Router[] = [];
+  public routers: Router[] = [];
 
   addRouter(id) {
     this.routers.push(new Router(id));

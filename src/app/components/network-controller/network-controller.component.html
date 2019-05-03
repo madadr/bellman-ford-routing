@@ -8,3 +8,4 @@
 <button (click)="onRemoveEdge()">Remove selected connections</button>
 <button (click)="onRemoveRouter()">Remove selected routers</button>
 <br/>
+<app-routing-table *ngFor="let router of this.routingService.routers" [router]="router"></app-routing-table>
