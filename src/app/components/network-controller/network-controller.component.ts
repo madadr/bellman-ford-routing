@@ -56,7 +56,6 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
       log('Removing node ' + id);
       const router = this.routingService.getRouter(id);
       for (const entry of router.interfaces) {
-        router.removeInterface(entry.destination);
         this.routingService.getRouter(entry.destination).removeInterface(id);
       }
 

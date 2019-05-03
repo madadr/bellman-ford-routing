@@ -1,4 +1,5 @@
 import {RoutingEntry} from './routing-entry';
+import {log} from 'util';
 
 export class Router {
   public interfaces: RoutingEntry[] = [];
