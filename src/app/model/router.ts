@@ -1,8 +1,8 @@
 import {RoutingEntry} from './routing-entry';
 
 export class Router {
-  interfaces: RoutingEntry[] = [];
-  routingTable: RoutingEntry[] = [];
+  public interfaces: RoutingEntry[] = [];
+  public routingTable: RoutingEntry[] = [];
 
   constructor(public readonly id: string) {
     this.routingTable.push({destination: id, cost: 0, nextHop: null});

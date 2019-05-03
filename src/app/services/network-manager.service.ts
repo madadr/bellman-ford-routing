@@ -56,6 +56,8 @@ export class NetworkManagerService {
       });
 
       this.lastNodeId.set(type, id);
+
+      return type + id;
     } catch (err) {
       alert(err);
     }
