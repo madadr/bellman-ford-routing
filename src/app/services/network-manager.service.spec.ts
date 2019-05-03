@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { NetworkManagerService } from './network-manager.service';
+import {NetworkManagerService} from './network-manager.service';
 
 describe('NetworkManagerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

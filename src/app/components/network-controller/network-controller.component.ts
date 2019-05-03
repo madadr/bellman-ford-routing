@@ -1,14 +1,18 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Network} from 'vis';
 import {NetworkManagerService} from '../../services/network-manager.service';
+import {RoutingService} from '../../services/routing.service';
+import {log} from 'util';
 
+// TODO: Use RoutingService
+// TODO: Add UpdateTrackerService
 @Component({
   selector: 'app-network',
-  templateUrl: './network.component.html',
-  styleUrls: ['./network.component.scss']
+  templateUrl: './network-controller.component.html',
+  styleUrls: ['./network-controller.component.scss']
 })
-export class NetworkComponent implements OnInit, AfterViewInit {
-  constructor(private networkManager: NetworkManagerService) {
+export class NetworkControllerComponent implements OnInit, AfterViewInit {
+  constructor(private networkManager: NetworkManagerService, private routingService: RoutingService) {
   }
 
   ngOnInit() {
@@ -44,6 +48,7 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   onRemoveRouter() {
     const ids = this.networkManager.network.getSelectedNodes();
     for (const id of ids) {
+      log('Removing node ' + id);
       this.networkManager.removeNode(id);
     }
   }
@@ -51,12 +56,13 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   onRemoveEdge() {
     const ids = this.networkManager.network.getSelectedEdges();
     for (const id of ids) {
+      log('Removing edge ' + id);
       this.networkManager.removeEdge(id);
     }
   }
 
   ngAfterViewInit(): void {
-    // Generates network structure. Test purposes only!
+    // Generates network-controller structure. Test purposes only!
     const routers = 6;
     for (let id = 1; id <= routers; ++id) {
       this.onAddRouter();

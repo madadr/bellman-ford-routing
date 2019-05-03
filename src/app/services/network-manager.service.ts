@@ -1,20 +1,26 @@
 import {Injectable} from '@angular/core';
-import {Network, DataSet} from 'vis';
-import {log} from 'util';
-import {stringify} from 'querystring';
+import {DataSet} from 'vis';
+import {Router} from '../model/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkManagerService {
+  get isInitialized(): boolean {
+    return this._isInitialized;
+  }
+
   readonly options: any;
 
   nodes: any;
   edges: any;
   network: any;
+  routers: Router[] = [];
 
   private lastNodeId = new Map(); // key: node type (e.g. R(router), PC); value: recent assigned ID
   private lastEdgeId = 1;
+
+  private _isInitialized = false;
 
   constructor() {
     this.options = {
@@ -35,6 +41,7 @@ export class NetworkManagerService {
 
   init(network) {
     this.network = network;
+    this._isInitialized = true;
   }
 
   addNode() {
