@@ -1,0 +1,28 @@
+<div *ngIf="updateTracker.updateEntries.length == 0">
+  <h5>No updates to display.</h5>
+</div>
+<div *ngIf="updateTracker.updateEntries.length > 0">
+  <ngb-pagination [collectionSize]="this.updateTracker.updateEntries.length * 10" [(page)]="page" [maxSize]="5"
+                  [boundaryLinks]="true">
+  </ngb-pagination>
+
+  <h3>Entry: <span class="font-weight-light">{{this.updateTracker.updateEntries[page - 1].info}}</span></h3>
+  <div class="row pb-2 m-1">
+    <div class="col-12 p-2">
+      <h5><u>Update data</u></h5>
+      <app-routing-table class="" [routingTable]="this.updateTracker.updateEntries[page - 1].updateData"
+                         [skipNextHop]=true></app-routing-table>
+    </div>
+    <!--    TODO: elements wrapping and diff table-->
+    <div class="col-6 p-2">
+      <h5><u>Before</u></h5>
+      <app-routing-table class="mb-1" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+                         [routingTable]="this.updateTracker.updateEntries[page - 1].before"></app-routing-table>
+    </div>
+    <div class="col-6 p-2">
+      <h5><u>After</u></h5>
+      <app-routing-table class="mb-1" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+                         [routingTable]="this.updateTracker.updateEntries[page - 1].after"></app-routing-table>
+    </div>
+  </div>
+</div>

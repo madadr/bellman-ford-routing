@@ -23,11 +23,19 @@
   </div>
   <div class="p-1 mh-1">
     <div class="card bg-light mb-2">
+      <div class="card-header bg-dark text-light">Updates history</div>
+      <div class="card-body">
+        <app-update-history-browser></app-update-history-browser>
+      </div>
+    </div>
+  </div>
+  <div class="p-1 mh-1">
+    <div class="card bg-light mb-2">
       <div class="card-header bg-dark text-light">Routing tables</div>
       <div class="card-body">
         <div class="row m-1">
           <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
-                             [router]="router"></app-routing-table>
+                             [routerId]="router.id" [routingTable]="router.routingTable"></app-routing-table>
         </div>
       </div>
     </div>
