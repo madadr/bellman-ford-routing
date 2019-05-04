@@ -1,14 +1,16 @@
-<div class="p-1">
-  <div id="visualisation">
+<div class="p-1 mh-1">
+  <div class="card bg-light mb-2">
+    <div class="card-header bg-dark text-light">Network</div>
+    <div class="card-body">
+      <div id="visualisation" class="mb-1">
+      </div>
+      <button (click)="onAddRouter()" type="button" class="btn btn-success m-1">Add router</button>
+      <button (click)="onAddLink()" type="button" class="btn btn-success m-1">Add link</button>
+      <br/>
+      <button (click)="onRemoveEdge()" type="button" class="btn btn-danger m-1">Remove selected connections</button>
+      <button (click)="onRemoveRouter()" type="button" class="btn btn-danger m-1">Remove selected routers</button>
+    </div>
   </div>
-  <button (click)="onAddRouter()">Add router</button>
-  <!--<button (click)="onAddRouter('R')">Add router</button>-->
-  <!--<button (click)="onAddRouter('PC')">Add PC</button>-->
-  <button (click)="onAddLink()">Add link</button>
-  <br/>
-  <button (click)="onRemoveEdge()">Remove selected connections</button>
-  <button (click)="onRemoveRouter()">Remove selected routers</button>
-  <br/>
   <div class="row m-1">
     <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
                        [router]="router"></app-routing-table>
