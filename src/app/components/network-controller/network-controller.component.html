@@ -1,0 +1,16 @@
+<div class="p-1">
+  <div id="visualisation">
+  </div>
+  <button (click)="onAddRouter()">Add router</button>
+  <!--<button (click)="onAddRouter('R')">Add router</button>-->
+  <!--<button (click)="onAddRouter('PC')">Add PC</button>-->
+  <button (click)="onAddLink()">Add link</button>
+  <br/>
+  <button (click)="onRemoveEdge()">Remove selected connections</button>
+  <button (click)="onRemoveRouter()">Remove selected routers</button>
+  <br/>
+  <div class="row m-1">
+    <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
+                       [router]="router"></app-routing-table>
+  </div>
+</div>

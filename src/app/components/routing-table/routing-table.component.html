@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{router.id}} routing table</h5>
+    <table class="table table-hover table-bordered"
+           *ngIf="router != null && router.routingTable != null">
+      <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Destination</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Next hop</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let entry of router.routingTable; index as i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{entry.destination}}</td>
+        <td>{{entry.cost}}</td>
+        <td>{{entry.nextHop}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
