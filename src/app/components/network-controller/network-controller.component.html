@@ -1,18 +1,35 @@
 <div class="p-1 mh-1">
   <div class="card bg-light mb-2">
     <div class="card-header bg-dark text-light">Network</div>
-    <div class="card-body">
+    <div class="card-body text-center row">
       <div id="visualisation" class="mb-1">
       </div>
-      <button (click)="onAddRouter()" type="button" class="btn btn-success m-1">Add router</button>
-      <button (click)="onAddLink()" type="button" class="btn btn-success m-1">Add link</button>
-      <br/>
-      <button (click)="onRemoveEdge()" type="button" class="btn btn-danger m-1">Remove selected connections</button>
-      <button (click)="onRemoveRouter()" type="button" class="btn btn-danger m-1">Remove selected routers</button>
+        <button (click)="onAddRouter()" type="button" class="btn-control btn-success">Add router</button>
+        <button (click)="onAddLink()" type="button" class="btn-control btn-success">Add link</button>
+        <br/>
+        <button (click)="onRemoveLinks()" type="button" class="btn-control btn-danger" style="white-space: normal;">
+          Remove
+          selected links
+        </button>
+        <button (click)="onRemoveRouters()" type="button" class="btn-control btn-danger" style="white-space: normal;">
+          Remove selected routers
+        </button>
+        <br/>
+        <button (click)="onSelectAll()" type="button" class="btn-control btn-primary">Select all</button>
+        <button (click)="onUnselectAll()" type="button" class="btn-control btn-primary">Unselect all</button>
+        <hr/>
+        <button (click)="onSendUpdates()" type="button" class="btn-control btn-primary">Send updates</button>
     </div>
   </div>
-  <div class="row m-1">
-    <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
-                       [router]="router"></app-routing-table>
+  <div class="p-1 mh-1">
+    <div class="card bg-light mb-2">
+      <div class="card-header bg-dark text-light">Routing tables</div>
+      <div class="card-body">
+        <div class="row m-1">
+          <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
+                             [router]="router"></app-routing-table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

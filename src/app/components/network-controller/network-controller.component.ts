@@ -50,7 +50,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     this.networkManager.addEdge(chosen[0], chosen[1], cost);
   }
 
-  onRemoveRouter() {
+  onRemoveRouters() {
     const ids = this.networkManager.network.getSelectedNodes();
     for (const id of ids) {
       log('Removing node ' + id);
@@ -64,7 +64,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onRemoveEdge() {
+  onRemoveLinks() {
     const ids = this.networkManager.network.getSelectedEdges();
     for (const id of ids) {
       log('Removing edge ' + id);
@@ -103,5 +103,17 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     this.networkManager.network.unselectAll();
     this.networkManager.network.selectNodes(['R4', 'R6']);
     this.onAddLink();
+  }
+
+  onSelectAll() {
+    this.networkManager.network.selectNodes(this.networkManager.nodes.map(n => n.id));
+  }
+
+  onUnselectAll() {
+    this.networkManager.network.unselectAll();
+  }
+
+  onSendUpdates() {
+
   }
 }
