@@ -41,6 +41,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     const cost = 3;
     if (cost == null || cost < 1) {
       alert('Cost must be positive number!');
+      return;
+    }
+
+    if (this.networkManager.hasEdge(chosen[0], chosen[1])) {
+      alert('Link already exists');
+      return;
     }
 
     this.routingService.addInterface(chosen[0], chosen[1], cost);
