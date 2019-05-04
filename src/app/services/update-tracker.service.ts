@@ -6,4 +6,14 @@ import {UpdateEntry} from '../model/update-entry';
 })
 export class UpdateTrackerService {
   public updateEntries: UpdateEntry[] = [];
+
+  addEntry(routerId, info, updateData, before, after) {
+    this.updateEntries.push({
+      routerId: routerId,
+      info: info,
+      updateData: updateData,
+      before: before,
+      after: after
+    });
+  }
 }

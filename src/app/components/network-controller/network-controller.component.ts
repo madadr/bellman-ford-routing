@@ -4,7 +4,6 @@ import {NetworkManagerService} from '../../services/network-manager.service';
 import {RoutingService} from '../../services/routing.service';
 import {log} from 'util';
 
-// TODO: Add UpdateTrackerService
 @Component({
   selector: 'app-network',
   templateUrl: './network-controller.component.html',
@@ -44,8 +43,8 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
       alert('Cost must be positive number!');
     }
 
-    this.routingService.getRouter(chosen[0]).addInterface(chosen[1], cost);
-    this.routingService.getRouter(chosen[1]).addInterface(chosen[0], cost);
+    this.routingService.addInterface(chosen[0], chosen[1], cost);
+    this.routingService.addInterface(chosen[1], chosen[0], cost);
 
     this.networkManager.addEdge(chosen[0], chosen[1], cost);
   }
@@ -53,12 +52,6 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
   onRemoveRouters() {
     const ids = this.networkManager.network.getSelectedNodes();
     for (const id of ids) {
-      log('Removing node ' + id);
-      const router = this.routingService.getRouter(id);
-      for (const entry of router.interfaces) {
-        this.routingService.getRouter(entry.destination).removeInterface(id);
-      }
-
       this.routingService.removeRouter(id);
       this.networkManager.removeNode(id);
     }
@@ -67,10 +60,10 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
   onRemoveLinks() {
     const ids = this.networkManager.network.getSelectedEdges();
     for (const id of ids) {
-      log('Removing edge ' + id);
       const edge = this.networkManager.edges.get(id);
-      this.routingService.getRouter(edge.from).removeInterface(edge.to);
-      this.routingService.getRouter(edge.to).removeInterface(edge.from);
+
+      this.routingService.removeInterface(edge.from, edge.to);
+      this.routingService.removeInterface(edge.to, edge.from);
 
       this.networkManager.removeEdge(id);
     }

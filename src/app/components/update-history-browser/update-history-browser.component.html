@@ -10,18 +10,24 @@
   <div class="row pb-2 m-1">
     <div class="col-12 p-2">
       <h5><u>Update data</u></h5>
-      <app-routing-table class="" [routingTable]="this.updateTracker.updateEntries[page - 1].updateData"
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].updateData">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].updateData"
+                         class="" [routingTable]="this.updateTracker.updateEntries[page - 1].updateData"
                          [skipNextHop]=true></app-routing-table>
     </div>
     <!--    TODO: elements wrapping and diff table-->
     <div class="col-6 p-2">
       <h5><u>Before</u></h5>
-      <app-routing-table class="mb-1" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].before">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].before" class="mb-1"
+                         [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
                          [routingTable]="this.updateTracker.updateEntries[page - 1].before"></app-routing-table>
     </div>
     <div class="col-6 p-2">
       <h5><u>After</u></h5>
-      <app-routing-table class="mb-1" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].after">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].after" class="mb-1"
+                         [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
                          [routingTable]="this.updateTracker.updateEntries[page - 1].after"></app-routing-table>
     </div>
   </div>
