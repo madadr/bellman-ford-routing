@@ -2,23 +2,23 @@
   <div class="card bg-light mb-2">
     <div class="card-header bg-dark text-light">Network</div>
     <div class="card-body text-center row">
-      <div id="visualisation" class="mb-1">
+      <div class="mb-1" id="visualisation">
       </div>
-        <button (click)="onAddRouter()" type="button" class="btn-control btn-success">Add router</button>
-        <button (click)="onAddLink()" type="button" class="btn-control btn-success">Add link</button>
-        <br/>
-        <button (click)="onRemoveLinks()" type="button" class="btn-control btn-danger" style="white-space: normal;">
-          Remove
-          selected links
-        </button>
-        <button (click)="onRemoveRouters()" type="button" class="btn-control btn-danger" style="white-space: normal;">
-          Remove selected routers
-        </button>
-        <br/>
-        <button (click)="onSelectAll()" type="button" class="btn-control btn-primary">Select all</button>
-        <button (click)="onUnselectAll()" type="button" class="btn-control btn-primary">Unselect all</button>
-        <hr/>
-        <button (click)="onSendUpdates()" type="button" class="btn-control btn-primary">Send updates</button>
+      <button (click)="onAddRouter()" class="btn-control btn-success" type="button">Add router</button>
+      <button (click)="onAddLink()" class="btn-control btn-success" type="button">Add link</button>
+      <br/>
+      <button (click)="onRemoveLinks()" class="btn-control btn-danger" style="white-space: normal;" type="button">
+        Remove
+        selected links
+      </button>
+      <button (click)="onRemoveRouters()" class="btn-control btn-danger" style="white-space: normal;" type="button">
+        Remove selected routers
+      </button>
+      <br/>
+      <button (click)="onSelectAll()" class="btn-control btn-primary" type="button">Select all</button>
+      <button (click)="onUnselectAll()" class="btn-control btn-primary" type="button">Unselect all</button>
+      <hr/>
+      <button (click)="onSendUpdates()" class="btn-control btn-primary" type="button">Send updates</button>
     </div>
   </div>
   <div class="p-1 mh-1">
@@ -34,8 +34,8 @@
       <div class="card-header bg-dark text-light">Routing tables</div>
       <div class="card-body">
         <div class="row m-1">
-          <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
-                             [routerId]="router.id" [routingTable]="router.routingTable"></app-routing-table>
+          <app-routing-table *ngFor="let router of this.routingService.routers" [routerId]="router.id"
+                             [routingTable]="router.routingTable" class="m-1"></app-routing-table>
         </div>
       </div>
     </div>

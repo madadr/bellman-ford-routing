@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '../../model/router';
+import {Component, Input} from '@angular/core';
 import {RoutingEntry} from '../../model/routing-entry';
 
 @Component({

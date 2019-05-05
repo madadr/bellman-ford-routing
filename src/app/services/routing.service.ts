@@ -73,7 +73,25 @@ export class RoutingService {
     );
   }
 
-  getRouter(id) {
+  getRouter(id): Router {
     return this.routers.find(r => r.id === id);
+  }
+
+  sendUpdates(id) {
+    const router = this.getRouter(id);
+
+    for (const entry of router.interfaces) {
+      const interfaceRouter = this.getRouter(entry.destination);
+      const before = [...interfaceRouter.routingTable];
+      const updateData = router.routingTable.slice(1, router.interfaces.length + 1);
+
+      interfaceRouter.updateRoutingTable(id, updateData);
+      this.updateTracker.addEntry(interfaceRouter.id,
+        'Router ' + interfaceRouter.id + ' received update from ' + id,
+        updateData,
+        before,
+        [...interfaceRouter.routingTable]
+      );
+    }
   }
 }

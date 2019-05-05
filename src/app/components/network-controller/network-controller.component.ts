@@ -2,7 +2,6 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Network} from 'vis';
 import {NetworkManagerService} from '../../services/network-manager.service';
 import {RoutingService} from '../../services/routing.service';
-import {log} from 'util';
 
 @Component({
   selector: 'app-network',
@@ -113,6 +112,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
   }
 
   onSendUpdates() {
+    const ids = this.networkManager.network.getSelectedNodes();
+    if (ids.length < 1 || ids.length > 1) {
+      alert('Select single router to send updates!');
+      return;
+    }
 
+    this.routingService.sendUpdates(ids[0]);
   }
 }
