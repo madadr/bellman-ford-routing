@@ -1,5 +1,4 @@
 import {RoutingEntry} from './routing-entry';
-import {log} from 'util';
 
 export class Router {
   public interfaces: RoutingEntry[] = [];
@@ -28,31 +27,35 @@ export class Router {
     }
     this.interfaces.splice(interfaceIndex, 1);
 
-    this.clearAndRestoreRoutingTable(routerId);
+    this.clearEntries(routerId);
   }
 
-  updateRoutingTable(source, routingEntries: RoutingEntry[]) {
-    this.clearAndRestoreRoutingTable(source);
-    const interfaceCost = this.interfaces.find(e => e.destination === source && e.nextHop === source).cost;
+  updateRoutingTable(source, updateEntries: RoutingEntry[]) {
+    this.clearEntries(source);
+    const interfaceCost = this.interfaces.find(e => e.destination === source).cost;
 
-    for (const entry of routingEntries) {
-      entry.nextHop = source;
+    for (const entry of updateEntries) {
+      if (entry.destination === this.id) {
+        continue;
+      }
+
+      const newEntry = {
+        destination: entry.destination,
+        cost: entry.cost + interfaceCost,
+        nextHop: source
+      };
       const oldEntry = this.routingTable.find(e => e.destination === entry.destination);
+
       if (oldEntry == null) {
-        this.routingTable.push(entry);
-      } else if (oldEntry.cost > interfaceCost + entry.cost) {
-        this.routingTable[this.routingTable.indexOf(oldEntry)] = entry;
+        this.routingTable.push(newEntry);
+      } else if (newEntry.cost < oldEntry.cost) {
+        this.routingTable[this.routingTable.indexOf(oldEntry)] = newEntry;
       }
     }
   }
 
-  sendUpdates() {
-    // foreach interface router - take from RoutingService
-    // updateRoutingTable(this.routingTable)
-  }
-
-  private clearAndRestoreRoutingTable(routerId) {
-    const routingEntries = this.routingTable.filter(e => e.nextHop === routerId);
+  private clearEntries(nextHopId) {
+    const routingEntries = this.routingTable.filter(e => e.nextHop === nextHopId);
 
     for (const entry of routingEntries) {
       // Remove entry

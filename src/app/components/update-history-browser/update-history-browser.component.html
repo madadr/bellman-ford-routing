@@ -1,0 +1,34 @@
+<div *ngIf="updateTracker.updateEntries.length == 0">
+  <h5>No updates to display.</h5>
+</div>
+<div *ngIf="updateTracker.updateEntries.length > 0">
+  <ngb-pagination [(page)]="page" [boundaryLinks]="true" [collectionSize]="this.updateTracker.updateEntries.length * 10"
+                  [maxSize]="5">
+  </ngb-pagination>
+
+  <h3>Entry: <span class="font-weight-light">{{this.updateTracker.updateEntries[page - 1].info}}</span></h3>
+  <div class="row pb-2 m-1">
+    <div class="col-12 p-2">
+      <h5><u>Update data</u></h5>
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].updateData">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].updateData"
+                         [routingTable]="this.updateTracker.updateEntries[page - 1].updateData" [skipNextHop]=true
+                         class=""></app-routing-table>
+    </div>
+    <!--    TODO: elements wrapping and diff table-->
+    <div class="col-6 p-2">
+      <h5><u>Before</u></h5>
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].before">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].before" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+                         [routingTable]="this.updateTracker.updateEntries[page - 1].before"
+                         class="mb-1"></app-routing-table>
+    </div>
+    <div class="col-6 p-2">
+      <h5><u>After</u></h5>
+      <p *ngIf="!this.updateTracker.updateEntries[page - 1].after">Empty</p>
+      <app-routing-table *ngIf="this.updateTracker.updateEntries[page - 1].after" [routerId]="this.updateTracker.updateEntries[page - 1].routerId"
+                         [routingTable]="this.updateTracker.updateEntries[page - 1].after"
+                         class="mb-1"></app-routing-table>
+    </div>
+  </div>
+</div>

@@ -1,16 +1,43 @@
-<div class="p-1">
-  <div id="visualisation">
+<div class="p-1 mh-1">
+  <div class="card bg-light mb-2">
+    <div class="card-header bg-dark text-light">Network</div>
+    <div class="card-body text-center row">
+      <div class="mb-1" id="visualisation">
+      </div>
+      <button (click)="onAddRouter()" class="btn-control btn-success" type="button">Add router</button>
+      <button (click)="onAddLink()" class="btn-control btn-success" type="button">Add link</button>
+      <br/>
+      <button (click)="onRemoveLinks()" class="btn-control btn-danger" style="white-space: normal;" type="button">
+        Remove
+        selected links
+      </button>
+      <button (click)="onRemoveRouters()" class="btn-control btn-danger" style="white-space: normal;" type="button">
+        Remove selected routers
+      </button>
+      <br/>
+      <button (click)="onSelectAll()" class="btn-control btn-primary" type="button">Select all</button>
+      <button (click)="onUnselectAll()" class="btn-control btn-primary" type="button">Unselect all</button>
+      <hr/>
+      <button (click)="onSendUpdates()" class="btn-control btn-primary" type="button">Send updates</button>
+    </div>
   </div>
-  <button (click)="onAddRouter()">Add router</button>
-  <!--<button (click)="onAddRouter('R')">Add router</button>-->
-  <!--<button (click)="onAddRouter('PC')">Add PC</button>-->
-  <button (click)="onAddLink()">Add link</button>
-  <br/>
-  <button (click)="onRemoveEdge()">Remove selected connections</button>
-  <button (click)="onRemoveRouter()">Remove selected routers</button>
-  <br/>
-  <div class="row m-1">
-    <app-routing-table class="m-1" *ngFor="let router of this.routingService.routers"
-                       [router]="router"></app-routing-table>
+  <div class="p-1 mh-1">
+    <div class="card bg-light mb-2">
+      <div class="card-header bg-dark text-light">Updates history</div>
+      <div class="card-body">
+        <app-update-history-browser></app-update-history-browser>
+      </div>
+    </div>
+  </div>
+  <div class="p-1 mh-1">
+    <div class="card bg-light mb-2">
+      <div class="card-header bg-dark text-light">Routing tables</div>
+      <div class="card-body">
+        <div class="row m-1">
+          <app-routing-table *ngFor="let router of this.routingService.routers" [routerId]="router.id"
+                             [routingTable]="router.routingTable" class="m-1"></app-routing-table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

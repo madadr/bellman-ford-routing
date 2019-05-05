@@ -1,26 +1,17 @@
 import {Injectable} from '@angular/core';
 import {DataSet} from 'vis';
-import {Router} from '../model/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NetworkManagerService {
-  get isInitialized(): boolean {
-    return this._isInitialized;
-  }
-
   readonly options: any;
 
   nodes: any;
   edges: any;
   network: any;
-  routers: Router[] = [];
 
   private lastNodeId = new Map(); // key: node type (e.g. R(router), PC); value: recent assigned ID
-  private lastEdgeId = 1;
-
-  private _isInitialized = false;
 
   constructor() {
     this.options = {
@@ -41,7 +32,6 @@ export class NetworkManagerService {
 
   init(network) {
     this.network = network;
-    this._isInitialized = true;
   }
 
   addNode() {
@@ -65,7 +55,7 @@ export class NetworkManagerService {
 
   addEdge(fromId, toId, cost) {
     try {
-      const edgeId = this.lastEdgeId;
+      const edgeId = fromId + toId;
 
       if (fromId != null && toId != null) {
         this.edges.add({
@@ -78,7 +68,6 @@ export class NetworkManagerService {
           }
         });
       }
-      this.lastEdgeId++;
     } catch (err) {
       alert(err);
     }
@@ -90,5 +79,11 @@ export class NetworkManagerService {
 
   removeEdge(id) {
     this.edges.remove(id);
+  }
+
+  hasEdge(nodeId1, nodeId2) {
+    return this.edges.get({
+      filter: (edge => edge.id === nodeId1 + nodeId2 || edge.id === nodeId2 + nodeId1)
+    }).length > 0;
   }
 }
