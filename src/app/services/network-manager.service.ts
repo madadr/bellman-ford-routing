@@ -19,7 +19,9 @@ export class NetworkManagerService {
         'R': {
           color: 'yellow'
         },
-        'PC': {}
+        'PC': {
+          color: 'green'
+        }
       },
       interaction: {
         multiselect: true
@@ -53,10 +55,28 @@ export class NetworkManagerService {
     }
   }
 
+  addComputerNode() {
+    const type = 'PC';
+    try {
+      const id = this.lastNodeId.has(type) ? this.lastNodeId.get(type) + 1 : 1;
+
+      this.nodes.add({
+        id: type + id,
+        label: type + id,
+        group: type
+      });
+
+      this.lastNodeId.set(type, id);
+
+      return type + id;
+    } catch (err) {
+      alert(err);
+    }
+  }
+
   addEdge(fromId, toId, cost) {
     try {
       const edgeId = fromId + toId;
-
       if (fromId != null && toId != null) {
         this.edges.add({
           id: edgeId,
