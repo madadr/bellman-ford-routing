@@ -135,4 +135,23 @@ export class NetworkManagerService {
       filter: (edge => edge.id === nodeId1 + nodeId2 || edge.id === nodeId2 + nodeId1)
     }).length > 0;
   }
+
+  highlightPath(nodes: any[]) {
+    for (let i = 0; i < nodes.length - 1; ++i) {
+      if (this.hasEdge(nodes[i], nodes[i + 1])) {
+        const edgeId = this.edges.getIds().find(id => id === nodes[i] + nodes[i + 1] || id === nodes[i + 1] + nodes[i]);
+        const edge = this.edges.get(edgeId);
+        edge.color = {color: 'red'};
+        this.edges.update(edge);
+      }
+    }
+  }
+
+  clearHighlights() {
+    for (const id of this.edges.getIds()) {
+      const edge = this.edges.get(id);
+      edge.color = {color: 'blue'};
+      this.edges.update(edge);
+    }
+  }
 }

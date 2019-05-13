@@ -42,7 +42,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
       alert('Too many items selected');
       return;
     } else if (chosen[0].startsWith('PC') && chosen[1].startsWith('PC')) {
-      alert('Cant add connection between 2 computers');
+      alert('Cannot add connection between 2 computers');
       return;
     }
 
@@ -56,6 +56,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
 
     if (this.networkManager.hasEdge(chosen[0], chosen[1])) {
       alert('Link already exists');
+      return;
+    }
+
+    if ((chosen[0].startsWith('PC') && this.routingService.getComputer(chosen[0]).interface != null)
+      || (chosen[1].startsWith('PC') && this.routingService.getComputer(chosen[1]).interface != null)) {
+      alert('This PC is already connected to router.');
       return;
     }
 
@@ -75,11 +81,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
       alert('Too many items selected');
       return;
     }
-    const firstComputer = this.routingService.computers.find( r => r.id === chosen[0]);
+    const firstComputer = this.routingService.computers.find(r => r.id === chosen[0]);
     const nodes = firstComputer.sendPacket(chosen[1]);
-    if(nodes != null) {
+    if (nodes != null) {
       alert('Sent packet through path: ' + JSON.stringify(nodes));
-      // TODO: add highlighting found path
+      this.networkManager.highlightPath(nodes);
+      this.onUnselectAll();
     }
   }
 
@@ -136,7 +143,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
   }
 
   onSelectAll() {
-    this.networkManager.network.selectNodes(this.networkManager.nodes.map(n => n.id));
+    this.networkManager.network.selectNodes(this.networkManager.nodes.map(n => n.id), false);
   }
 
   onUnselectAll() {
@@ -151,5 +158,10 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     }
 
     this.routingService.sendUpdates(ids[0]);
+  }
+
+  onClearPacketRoute() {
+    this.networkManager.clearHighlights();
+    this.onUnselectAll();
   }
 }
