@@ -1,5 +1,4 @@
 import {RoutingEntry} from './routing-entry';
-import {NetworkManagerService} from '../services/network-manager.service';
 import {RoutingService} from '../services/routing.service';
 
 export class Computer {
@@ -9,42 +8,36 @@ export class Computer {
   }
 
   addInterface(routerId, cost) {
-    const newEntry = {destination: routerId, cost: cost, nextHop: routerId};
-    this.interface = newEntry;
+    this.interface = {destination: routerId, cost: cost, nextHop: routerId};
   }
 
-  sendPackage(toPCId) {
+  removeInterface() {
+    this.interface = null;
+  }
+
+  sendPacket(toPCId) {
     if (this.interface == null) {
-      alert('This computer is not connected to any other computer');
+      alert('This computer is not connected to any router');
       return null;
     }
-    const destinationRouter = this.routingService.routers.find( r => r.id === this.interface.destination);
-    if (destinationRouter == null) {
-      alert('This computer is not connected to any other computer');
-      return null;
-    }
-    const nodes = [this.id];
-    var currentRouter = destinationRouter;
-    while (currentRouter.routingTable.find( r => r.nextHop === toPCId) != null) {
+    const nodes = [];
+    nodes.push(this.id);
+    let currentRouter = this.routingService.routers.find( r => r.id === this.interface.destination);
+    while (currentRouter.routingTable.find( r => r.destination === toPCId) != null) {
       const nextRouterEntry = currentRouter.routingTable.find( r => r.destination === toPCId);
       if (nextRouterEntry == null) {
-        alert('This computer ' + toPCId + ' is not reachable');
-        return null;
+        break;
       }
       nodes.push(currentRouter.id);
       if (nextRouterEntry.destination === nextRouterEntry.nextHop) {
         nodes.push(toPCId);
-        break;
+        return nodes;
       }
 
-      const nextRouter = this.routingService.routers.find( r => r.id === nextRouterEntry.nextHop);
-      currentRouter = nextRouter;
+      currentRouter = this.routingService.routers.find(r => r.id === nextRouterEntry.nextHop);
     }
 
-    if(nodes.length === 1) {
-      return null;
-    }
-
-    return nodes;
+    alert('Computer ' + toPCId + ' is unreachable from ' + this.id);
+    return null;
   }
 }

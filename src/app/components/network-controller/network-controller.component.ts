@@ -65,7 +65,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     this.networkManager.addEdge(chosen[0], chosen[1], cost);
   }
 
-  onSendPackage() {
+  onSendPacket() {
     const chosen = this.networkManager.network.getSelectedNodes();
 
     if (chosen == null || chosen.length < 2 || !chosen[0].startsWith('PC') || !chosen[1].startsWith('PC')) {
@@ -76,8 +76,11 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
       return;
     }
     const firstComputer = this.routingService.computers.find( r => r.id === chosen[0]);
-    const nodes = firstComputer.sendPackage(chosen[1]);
-    alert(JSON.stringify(nodes));
+    const nodes = firstComputer.sendPacket(chosen[1]);
+    if(nodes != null) {
+      alert('Sent packet through path: ' + JSON.stringify(nodes));
+      // TODO: add highlighting found path
+    }
   }
 
   onRemoveNodes() {
