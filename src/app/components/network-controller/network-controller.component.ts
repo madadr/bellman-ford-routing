@@ -2,8 +2,6 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Network} from 'vis';
 import {NetworkManagerService} from '../../services/network-manager.service';
 import {RoutingService} from '../../services/routing.service';
-import {Log} from '@angular/core/testing/src/logger';
-import {log} from 'util';
 
 @Component({
   selector: 'app-network',
@@ -50,7 +48,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
 
     const costString: string = (document.getElementById('cost') as HTMLInputElement).value;
     // tslint:disable-next-line:radix
-    const cost: number = parseInt(costString);
+    const cost = parseInt(costString);
     if (cost == null || cost < 1 || costString === '') {
       alert('Cost must be positive number!');
       return;
@@ -82,9 +80,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     alert(JSON.stringify(nodes));
   }
 
-  onRemoveRouters() {
+  onRemoveNodes() {
     const ids = this.networkManager.network.getSelectedNodes();
     for (const id of ids) {
+      if (id.startsWith('PC')) {
+        this.routingService.removeComputer(id);
+      }
       this.routingService.removeRouter(id);
       this.networkManager.removeNode(id);
     }

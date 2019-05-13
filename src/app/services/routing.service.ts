@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Router} from '../model/router';
 import {UpdateTrackerService} from './update-tracker.service';
 import {Computer} from '../model/computer';
-import {RoutingEntry} from '../model/routing-entry';
+import {log} from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -95,18 +95,52 @@ export class RoutingService {
     this.routers.splice(routerIndex, 1);
   }
 
-  // TODO: rename&refactor to removeLink
-  removeInterface(routerId, interfaceId) {
-    const router = this.getRouter(routerId);
-    const before = [...router.routingTable];
-    router.removeInterface(interfaceId);
+  removeComputer(id) {
+    const pcIndex = this.computers.findIndex(r => r.id === id);
+    if (pcIndex === -1) {
+      return;
+    }
 
-    this.updateTracker.addEntry(routerId,
-      'Link ' + routerId + '<->' + interfaceId + ' removed',
+    const computer = this.computers[pcIndex];
+
+    if (computer.interface != null) {
+      this.removeInterface(computer.interface.destination, id);
+    }
+
+    this.updateTracker.addEntry(computer.id,
+      'Computer ' + computer.id + ' removed',
       null,
-      before,
-      [...router.routingTable]
+      null,
+      null
     );
+
+    this.computers.splice(pcIndex, 1);
+  }
+
+  // TODO: rename&refactor to removeLink
+  removeInterface(nodeId, interfaceId) {
+    if (nodeId.startsWith('PC')) {
+      const computer = this.getComputer(nodeId);
+      computer.removeInterface();
+
+      this.updateTracker.addEntry(nodeId,
+        'Link ' + nodeId + '<->' + interfaceId + ' removed',
+        null,
+        null,
+        null
+      );
+    } else {
+      const router = this.getRouter(nodeId);
+      const before = [...router.routingTable];
+      router.removeInterface(interfaceId);
+
+      this.updateTracker.addEntry(nodeId,
+        'Link ' + nodeId + '<->' + interfaceId + ' removed',
+        null,
+        before,
+        [...router.routingTable]
+      );
+    }
   }
 
   getRouter(id): Router {
@@ -121,13 +155,14 @@ export class RoutingService {
     const router = this.getRouter(id);
 
     for (const entry of router.interfaces) {
-      // alert('1!');
+      if (entry.destination.startsWith('PC')) {
+        continue;
+      }
+
       const interfaceRouter = this.getRouter(entry.destination);
       const before = [...interfaceRouter.routingTable];
-      alert('222!');
-      const updateData = router.routingTable.slice(1, router.interfaces.length + 1);
+      const updateData = router.routingTable.slice(1, router.routingTable.length);
 
-      alert('2!');
       interfaceRouter.updateRoutingTable(id, updateData);
       this.updateTracker.addEntry(interfaceRouter.id,
         'Router ' + interfaceRouter.id + ' received update from ' + id,
@@ -135,7 +170,6 @@ export class RoutingService {
         before,
         [...interfaceRouter.routingTable]
       );
-      alert('3!');
     }
   }
 }
