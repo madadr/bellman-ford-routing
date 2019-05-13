@@ -9,6 +9,7 @@
 .btn-control {
   @extend .btn;
   @extend .m-1;
-  @extend .col-4;
+  @extend .ml-4;
+  @extend .col-3;
   white-space: normal;
 }
