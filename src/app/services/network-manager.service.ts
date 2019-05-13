@@ -17,13 +17,42 @@ export class NetworkManagerService {
     this.options = {
       groups: {
         'R': {
-          color: 'yellow'
+          shape: 'box',
+          color: {
+            background: 'yellow',
+            border: 'black',
+            highlight: {
+              background: '#d400ce'
+            }
+          }
         },
         'PC': {
-          color: 'green'
+          shape: 'circle',
+          color: {
+            background: 'green',
+            border: 'black',
+            highlight: {
+              background: '#d400ce'
+            }
+          },
+          font: {
+            color: 'white'
+          }
         }
       },
+      edges: {
+        font: {
+          background: 'white',
+          size: 16
+        },
+        color: {
+          background: 'blue',
+          highlight: '#d400ce'
+        },
+        width: 2
+      },
       interaction: {
+        navigationButtons: true,
         multiselect: true
       }
     };
