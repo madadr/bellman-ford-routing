@@ -1,24 +1,36 @@
 <div class="p-1 mh-1">
   <div class="card bg-light mb-2">
     <div class="card-header bg-dark text-light">Network</div>
-    <div class="card-body text-center row">
+    <div class="card-body">
       <div class="mb-1" id="visualisation">
       </div>
-      <button (click)="onAddRouter()" class="btn-control btn-success" type="button">Add router</button>
-      <button (click)="onAddLink()" class="btn-control btn-success" type="button">Add link</button>
-      <br/>
-      <button (click)="onRemoveLinks()" class="btn-control btn-danger" style="white-space: normal;" type="button">
-        Remove
-        selected links
-      </button>
-      <button (click)="onRemoveRouters()" class="btn-control btn-danger" style="white-space: normal;" type="button">
-        Remove selected routers
-      </button>
-      <br/>
-      <button (click)="onSelectAll()" class="btn-control btn-primary" type="button">Select all</button>
-      <button (click)="onUnselectAll()" class="btn-control btn-primary" type="button">Unselect all</button>
-      <hr/>
-      <button (click)="onSendUpdates()" class="btn-control btn-primary" type="button">Send updates</button>
+      <div class="row">
+        <button (click)="onAddRouter()" class="btn-control btn-success" type="button">Add router</button>
+        <button (click)="onAddComputer()" class="btn-control btn-success" type="button">Add computer</button>
+        <span class="input-group col-3 m-1">
+          <span class="input-group-prepend">
+            <button (click)="onAddLink()" class="btn btn-success" type="button">Add link</button>
+          </span>
+          <input type="text" class="form-control" placeholder="Cost" id="cost">
+        </span>
+      </div>
+      <div class="row">
+        <button (click)="onRemoveLinks()" class="btn-control btn-danger" type="button">
+          Remove
+          selected links
+        </button>
+        <button (click)="onRemoveNodes()" class="btn-control btn-danger" type="button">
+          Remove selected routers or PCs
+        </button>
+      </div>
+      <div class="row">
+        <button (click)="onSelectAll()" class="btn-control btn-primary" type="button">Select all</button>
+        <button (click)="onUnselectAll()" class="btn-control btn-primary" type="button">Unselect all</button>
+      </div>
+      <div class="row">
+        <button (click)="onSendPacket()" class="btn-control btn-warning" type="button">Send packet</button>
+        <button (click)="onSendUpdates()" class="btn-control btn-warning" type="button">Send updates</button>
+      </div>
     </div>
   </div>
   <div class="p-1 mh-1">
@@ -34,6 +46,7 @@
       <div class="card-header bg-dark text-light">Routing tables</div>
       <div class="card-body">
         <div class="row m-1">
+          <h5 *ngIf="this.routingService.routers.length == 0">Empty</h5>
           <app-routing-table *ngFor="let router of this.routingService.routers" [routerId]="router.id"
                              [routingTable]="router.routingTable" class="m-1"></app-routing-table>
         </div>

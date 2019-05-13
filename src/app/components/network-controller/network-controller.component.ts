@@ -25,6 +25,13 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onAddComputer() {
+    const nodeId = this.networkManager.addComputerNode();
+    if (nodeId != null) {
+      this.routingService.addComputer(nodeId);
+    }
+  }
+
   onAddLink() {
     const chosen = this.networkManager.network.getSelectedNodes();
 
@@ -34,11 +41,15 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     } else if (chosen.length > 2) {
       alert('Too many items selected');
       return;
+    } else if (chosen[0].startsWith('PC') && chosen[1].startsWith('PC')) {
+      alert('Cant add connection between 2 computers');
+      return;
     }
 
-    // TODO: read from input field
-    const cost = 3;
-    if (cost == null || cost < 1) {
+    const costString: string = (document.getElementById('cost') as HTMLInputElement).value;
+    // tslint:disable-next-line:radix
+    const cost = parseInt(costString);
+    if (cost == null || cost < 1 || costString === '') {
       alert('Cost must be positive number!');
       return;
     }
@@ -54,9 +65,30 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     this.networkManager.addEdge(chosen[0], chosen[1], cost);
   }
 
-  onRemoveRouters() {
+  onSendPacket() {
+    const chosen = this.networkManager.network.getSelectedNodes();
+
+    if (chosen == null || chosen.length < 2 || !chosen[0].startsWith('PC') || !chosen[1].startsWith('PC')) {
+      alert('Select 2 computers to send package');
+      return;
+    } else if (chosen.length > 2) {
+      alert('Too many items selected');
+      return;
+    }
+    const firstComputer = this.routingService.computers.find( r => r.id === chosen[0]);
+    const nodes = firstComputer.sendPacket(chosen[1]);
+    if(nodes != null) {
+      alert('Sent packet through path: ' + JSON.stringify(nodes));
+      // TODO: add highlighting found path
+    }
+  }
+
+  onRemoveNodes() {
     const ids = this.networkManager.network.getSelectedNodes();
     for (const id of ids) {
+      if (id.startsWith('PC')) {
+        this.routingService.removeComputer(id);
+      }
       this.routingService.removeRouter(id);
       this.networkManager.removeNode(id);
     }
@@ -76,31 +108,31 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     // Generates network-controller structure. Test purposes only!
-    const routers = 6;
-    for (let id = 1; id <= routers; ++id) {
-      this.onAddRouter();
-    }
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R1', 'R2']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R1', 'R3']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R3', 'R5']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R5', 'R1']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R4', 'R5']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R4', 'R2']);
-    this.onAddLink();
-    this.networkManager.network.unselectAll();
-    this.networkManager.network.selectNodes(['R4', 'R6']);
-    this.onAddLink();
+    // const routers = 6;
+    // for (let id = 1; id <= routers; ++id) {
+    //   this.onAddRouter();
+    // }
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R1', 'R2']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R1', 'R3']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R3', 'R5']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R5', 'R1']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R4', 'R5']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R4', 'R2']);
+    // this.onAddLink();
+    // this.networkManager.network.unselectAll();
+    // this.networkManager.network.selectNodes(['R4', 'R6']);
+    // this.onAddLink();
   }
 
   onSelectAll() {
