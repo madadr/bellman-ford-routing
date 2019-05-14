@@ -34,6 +34,11 @@ export class Computer {
         return nodes;
       }
 
+      if (nodes.length > 16) {
+        alert('Too many hops (>15). Route unreachable.');
+        return null;
+      }
+
       currentRouter = this.routingService.routers.find(r => r.id === nextRouterEntry.nextHop);
     }
 

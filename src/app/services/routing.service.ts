@@ -37,8 +37,6 @@ export class RoutingService {
     );
   }
 
-
-  // TODO: rename&refactor to addLink?
   addInterface(fromId, toId, cost) {
     if (fromId.startsWith('R')) {
       this.addLinkFromRouter(fromId, toId, cost);
@@ -117,7 +115,6 @@ export class RoutingService {
     this.computers.splice(pcIndex, 1);
   }
 
-  // TODO: rename&refactor to removeLink
   removeInterface(nodeId, interfaceId) {
     if (nodeId.startsWith('PC')) {
       const computer = this.getComputer(nodeId);

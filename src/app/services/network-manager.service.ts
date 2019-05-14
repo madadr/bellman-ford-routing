@@ -54,6 +54,9 @@ export class NetworkManagerService {
       interaction: {
         navigationButtons: true,
         multiselect: true
+      },
+      physics: {
+        solver: 'forceAtlas2Based'
       }
     };
 

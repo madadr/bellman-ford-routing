@@ -150,7 +150,7 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     this.networkManager.network.unselectAll();
   }
 
-  onSendUpdates() {
+  onSendSingleUpdate() {
     const ids = this.networkManager.network.getSelectedNodes();
     if (ids.length < 1 || ids.length > 1) {
       alert('Select single router to send updates!');
@@ -158,6 +158,12 @@ export class NetworkControllerComponent implements OnInit, AfterViewInit {
     }
 
     this.routingService.sendUpdates(ids[0]);
+  }
+
+  onSendAllUpdates() {
+    for (const routerId of this.routingService.routers.map(r => r.id)) {
+      this.routingService.sendUpdates(routerId);
+    }
   }
 
   onClearPacketRoute() {
